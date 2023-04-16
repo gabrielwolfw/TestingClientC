@@ -47,13 +47,15 @@ void draw_button(Button* button) {
 
 
 void open_new_window() {
-    InitWindow(640, 480, "New Window");
+    InitWindow(640, 480, "Space Invaders Jugador");
     SetTargetFPS(60);
+    Texture2D gameBack = LoadTexture("./recursos/fondo.png");
+
     
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText("New Window", 100, 100, 20, BLACK);
+        DrawTexture(gameBack, 0, 0, WHITE);
         EndDrawing();
     }
     
