@@ -2,6 +2,7 @@
 #include "stdbool.h" // Libreria para usar booleanos
 #include <stdlib.h>
 #include <stdio.h>
+#include "invasor.c"
 
 typedef struct {
     Rectangle rect;
@@ -76,6 +77,13 @@ void ventanaJugador() {
     Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
     Texture2D nave = LoadTexture("./recursos/nave.png");
 
+
+    //Inicializar el invasor ovni
+    Invasor invasor;
+    inicializarInvasor(&invasor, screenWidth);
+
+
+
      // Inicializar la posición de la nave
     float naveX = screenWidth/2 -nave.width;
     float naveY = (screenHeight-20) - nave.height;
@@ -109,10 +117,13 @@ void ventanaJugador() {
             naveY -= 0;
         }
 
+        moverInvasor(&invasor, true);
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
         DrawTexture(nave, naveX, naveY, WHITE);
+        dibujarInvasor(&invasor);
         EndDrawing();
     } 
     CloseWindow();
