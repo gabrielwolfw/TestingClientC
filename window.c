@@ -36,14 +36,14 @@ bool is_button_pressed(Button* button) {
 
 
 
-
-void draw_button(Button* button) {
+//Se dibuja el button del espectador
+void draw_espectadorButton(Button* button) {
     DrawRectangleRec(button->rect, button->color);
     DrawText("MIRAR", button->rect.x + button->rect.width/2 - MeasureText("PRESS", 25)/2, 
              button->rect.y + button->rect.height - 38, 26, BLACK);
 }
 
-
+//Se dibuja el button del jugador
 void draw_jugadorButton(Button* button) {
     DrawRectangleRec(button->rect, button->color);
     DrawText("JUGAR", button->rect.x + button->rect.width/2 - MeasureText("PRESS", 25)/2, 
@@ -100,18 +100,19 @@ int main(void){
 
     //CREANDO UN BOTON
     //Button espectador
-    Rectangle buttonRect = { 170, 380, 100, 50 };   //100 y 50 son el ancho y alto del boton, 170 y 380 son las coordenadas del boton
-    Color buttonColor = GRAY;
+    Rectangle buttonEspecRect = { 170, 380, 100, 50 };   //100 y 50 son el ancho y alto del boton, 170 y 380 son las coordenadas del boton
+    Color buttonEspecColor = GRAY;
 
     //Button jugador
     Rectangle buttonJugRect = {410,380,100,50};
     Color buttonJugColor = GRAY;
 
-
+    //Define los botones en la ventana principal
     Button buttonEspectador;
     Button buttonJugar;
 
-    init_button(&buttonEspectador, buttonRect, buttonColor);
+    //Inicializa buttones
+    init_button(&buttonEspectador, buttonEspecRect, buttonEspecColor);
     init_button(&buttonJugar, buttonJugRect, buttonJugColor);
 
 
@@ -134,7 +135,7 @@ int main(void){
 
             DrawTexture(background, 0, 0, WHITE);
 
-        draw_button(&buttonEspectador); // Dibujar el botón
+        draw_espectadorButton(&buttonEspectador); // Dibujar el botón
 
         
         if (is_button_pressed(&buttonEspectador)) {
