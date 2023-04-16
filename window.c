@@ -45,9 +45,9 @@ void draw_button(Button* button) {
 
 
 
-
-void open_new_window() {
-    InitWindow(640, 480, "Space Invaders Jugador");
+//Donde todas las acciones del jugador van a ser vistas, no se puede modificar nada
+void ventanaEspectador() {
+    InitWindow(640, 480, "Space Invaders Espectador");
     SetTargetFPS(60);
     Texture2D gameBack = LoadTexture("./recursos/fondo.png");
 
@@ -61,6 +61,24 @@ void open_new_window() {
     
     CloseWindow();
 }
+
+//Donde todas las acciones del jugador van a ocurrir
+void ventanaJugador() {
+    InitWindow(640, 480, "Space Invaders Jugador");
+    SetTargetFPS(60);
+    Texture2D gameBack = LoadTexture("./recursos/fondo.png");
+
+    
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        DrawTexture(gameBack, 0, 0, WHITE);
+        EndDrawing();
+    } 
+    CloseWindow();
+}
+
+
 
 
 
@@ -104,7 +122,7 @@ int main(void){
         draw_button(&button); // Dibujar el botón
         if (is_button_pressed(&button)) {
             printf("Ha sido presionado");
-            open_new_window(); // Abrir la nueva ventana
+            ventanaEspectador(); // Abrir la nueva ventana
             init_button(&button, (Rectangle){screenWidth/2 - 100, screenHeight/2 - 25, 200, 50}, GRAY); // Reinicializar el botón
         }
 
