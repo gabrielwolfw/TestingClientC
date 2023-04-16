@@ -69,7 +69,7 @@ int main(void){
     const int screenHeight = 550;
 
 
-    InitWindow(screenWidth, screenHeight, "Pantalla Principal");
+    InitWindow(screenWidth, screenHeight, "Game Window");
     Texture2D background = LoadTexture("./recursos/fondo.png");
 
     //CREANDO UN BOTON
