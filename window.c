@@ -19,9 +19,6 @@ void init_button(Button* button, Rectangle rect, Color color) {
 
 
 
-
-
-
 bool is_button_pressed(Button* button) {
     if (CheckCollisionPointRec(GetMousePosition(), button->rect)) {
         button->color = LIGHTGRAY;
@@ -70,7 +67,7 @@ void ventanaEspectador() {
 
 //Donde todas las acciones del jugador van a ocurrir
 void ventanaJugador() {
-    InitWindow(640, 480, "Space Invaders Jugador");
+    InitWindow(630, 500, "Space Invaders Jugador");
     SetTargetFPS(60);
     Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
 
@@ -83,7 +80,6 @@ void ventanaJugador() {
     } 
     CloseWindow();
 }
-
 
 
 
