@@ -9,14 +9,11 @@ typedef struct {
     bool pressed;
 } Button;
 
-
-
 void init_button(Button* button, Rectangle rect, Color color) {
     button->rect = rect;
     button->color = color;
     button->pressed = false;
 }
-
 
 
 bool is_button_pressed(Button* button) {
@@ -30,8 +27,6 @@ bool is_button_pressed(Button* button) {
     }
     return button->pressed;
 }
-
-
 
 //Se dibuja el button del espectador
 void draw_espectadorButton(Button* button) {
@@ -47,39 +42,40 @@ void draw_jugadorButton(Button* button) {
              button->rect.y + button->rect.height - 38, 26, BLACK);
 }
 
-
 //Donde todas las acciones del jugador van a ser vistas, no se puede modificar nada
 void ventanaEspectador() {
     InitWindow(640, 480, "Space Invaders Espectador");
     SetTargetFPS(60);
     Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
-
-    
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
         EndDrawing();
     }
-    
     CloseWindow();
 }
 
 //Donde todas las acciones del jugador van a ocurrir
 void ventanaJugador() {
-    InitWindow(630, 500, "Space Invaders Jugador");
+    InitWindow(640, 480, "Space Invaders Jugador");
     SetTargetFPS(60);
     Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
+    Texture2D nave = LoadTexture("./recursos/nave.png");
 
     
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
+        DrawTexture(nave,170,400,WHITE);
         EndDrawing();
     } 
+
+    UnloadTexture(nave);
     CloseWindow();
 }
+
 
 
 
@@ -89,7 +85,6 @@ int main(void){
     // Inicializacion de la ventana y OpenGL , se de definen el alto y ancho de la ventana
     const int screenWidth = 650;
     const int screenHeight = 550;
-
 
     InitWindow(screenWidth, screenHeight, "Game Window");
     Texture2D background = LoadTexture("./recursos/fondo.png");
