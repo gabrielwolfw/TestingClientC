@@ -29,7 +29,7 @@ bool is_button_pressed(Button* button) {
             button->pressed = true;
         }
     } else {
-        button->color = GRAY;
+        button->color = WHITE;
     }
     return button->pressed;
 }
@@ -39,8 +39,8 @@ bool is_button_pressed(Button* button) {
 
 void draw_button(Button* button) {
     DrawRectangleRec(button->rect, button->color);
-    DrawText("PRESS", button->rect.x + button->rect.width/2 - MeasureText("PRESS", 20)/2, 
-             button->rect.y + button->rect.height/2 - 10, 20, BLACK);
+    DrawText("MIRAR", button->rect.x + button->rect.width/2 - MeasureText("PRESS", 25)/2, 
+             button->rect.y + button->rect.height - 38, 26, BLACK);
 }
 
 
@@ -93,7 +93,7 @@ int main(void){
     Texture2D background = LoadTexture("./recursos/fondo.png");
 
     //CREANDO UN BOTON
-    Rectangle buttonRect = { 100, 280, 100, 50 };   //100 y 50 son el ancho y alto del boton
+    Rectangle buttonRect = { 170, 380, 100, 50 };   //100 y 50 son el ancho y alto del boton, 170 y 380 son las coordenadas del boton
     Color buttonColor = GRAY;
 
     Button button;
