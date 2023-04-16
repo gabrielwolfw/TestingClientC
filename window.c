@@ -55,7 +55,7 @@ void draw_jugadorButton(Button* button) {
 void ventanaEspectador() {
     InitWindow(640, 480, "Space Invaders Espectador");
     SetTargetFPS(60);
-    Texture2D gameBack = LoadTexture("./recursos/fondo.png");
+    Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
 
     
     while (!WindowShouldClose()) {
@@ -72,7 +72,7 @@ void ventanaEspectador() {
 void ventanaJugador() {
     InitWindow(640, 480, "Space Invaders Jugador");
     SetTargetFPS(60);
-    Texture2D gameBack = LoadTexture("./recursos/fondo.png");
+    Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
 
     
     while (!WindowShouldClose()) {
