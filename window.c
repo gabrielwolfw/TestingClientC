@@ -104,7 +104,7 @@ int main(void){
     Color buttonColor = GRAY;
 
     //Button jugador
-    Rectangle buttonJugRect = {170,370,100,50};
+    Rectangle buttonJugRect = {410,380,100,50};
     Color buttonJugColor = GRAY;
 
 
