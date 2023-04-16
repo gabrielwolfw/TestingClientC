@@ -44,6 +44,12 @@ void draw_button(Button* button) {
 }
 
 
+void draw_jugadorButton(Button* button) {
+    DrawRectangleRec(button->rect, button->color);
+    DrawText("JUGAR", button->rect.x + button->rect.width/2 - MeasureText("PRESS", 25)/2, 
+             button->rect.y + button->rect.height - 38, 26, BLACK);
+}
+
 
 //Donde todas las acciones del jugador van a ser vistas, no se puede modificar nada
 void ventanaEspectador() {
@@ -93,11 +99,20 @@ int main(void){
     Texture2D background = LoadTexture("./recursos/fondo.png");
 
     //CREANDO UN BOTON
+    //Button espectador
     Rectangle buttonRect = { 170, 380, 100, 50 };   //100 y 50 son el ancho y alto del boton, 170 y 380 son las coordenadas del boton
     Color buttonColor = GRAY;
 
-    Button button;
-    init_button(&button, buttonRect, buttonColor);
+    //Button jugador
+    Rectangle buttonJugRect = {170,370,100,50};
+    Color buttonJugColor = GRAY;
+
+
+    Button buttonEspectador;
+    Button buttonJugar;
+
+    init_button(&buttonEspectador, buttonRect, buttonColor);
+    init_button(&buttonJugar, buttonJugRect, buttonJugColor);
 
 
     
@@ -119,12 +134,22 @@ int main(void){
 
             DrawTexture(background, 0, 0, WHITE);
 
-        draw_button(&button); // Dibujar el botón
-        if (is_button_pressed(&button)) {
-            printf("Ha sido presionado");
+        draw_button(&buttonEspectador); // Dibujar el botón
+
+        
+        if (is_button_pressed(&buttonEspectador)) {
+            printf("Ha sido presionado el buttonEspectador");
             ventanaEspectador(); // Abrir la nueva ventana
-            init_button(&button, (Rectangle){screenWidth/2 - 100, screenHeight/2 - 25, 200, 50}, GRAY); // Reinicializar el botón
+            init_button(&buttonEspectador, (Rectangle){screenWidth/2 - 100, screenHeight/2 - 25, 200, 50}, GRAY); // Reinicializar el botón
         }
+        
+        draw_jugadorButton(&buttonJugar);
+        if(is_button_pressed(&buttonJugar)){
+            printf("Ha sido presionado el buttonJugador");
+            ventanaJugador(); // Abrir la nueva ventana
+            init_button(&buttonJugar, (Rectangle){screenWidth/2 - 100, screenHeight/2 - 25, 200, 50}, GRAY);
+        }
+        
 
             //DrawText("BIENVENIDO A SPACE INVADERS", 190, 200, 20, BLACK);
             // Dibujar el fondo
