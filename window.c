@@ -9,11 +9,14 @@ typedef struct {
     bool pressed;
 } Button;
 
+
+
 void init_button(Button* button, Rectangle rect, Color color) {
     button->rect = rect;
     button->color = color;
     button->pressed = false;
 }
+
 
 
 bool is_button_pressed(Button* button) {
@@ -27,6 +30,8 @@ bool is_button_pressed(Button* button) {
     }
     return button->pressed;
 }
+
+
 
 //Se dibuja el button del espectador
 void draw_espectadorButton(Button* button) {
@@ -42,40 +47,77 @@ void draw_jugadorButton(Button* button) {
              button->rect.y + button->rect.height - 38, 26, BLACK);
 }
 
+
 //Donde todas las acciones del jugador van a ser vistas, no se puede modificar nada
 void ventanaEspectador() {
     InitWindow(640, 480, "Space Invaders Espectador");
     SetTargetFPS(60);
     Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
-    while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        DrawTexture(gameBack, 0, 0, WHITE);
-        EndDrawing();
-    }
-    CloseWindow();
-}
-
-//Donde todas las acciones del jugador van a ocurrir
-void ventanaJugador() {
-    InitWindow(640, 480, "Space Invaders Jugador");
-    SetTargetFPS(60);
-    Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
-    Texture2D nave = LoadTexture("./recursos/nave.png");
 
     
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
-        DrawTexture(nave,170,400,WHITE);
         EndDrawing();
-    } 
-
-    UnloadTexture(nave);
+    }
+    
     CloseWindow();
 }
 
+//Donde todas las acciones del jugador van a ocurrir
+void ventanaJugador() {
+
+    // Inicializacion de la ventana y OpenGL , se de definen el alto y ancho de la ventana
+    const int screenWidth = 630;
+    const int screenHeight = 500;
+    InitWindow(screenWidth, screenHeight, "Space Invaders Jugador");
+    SetTargetFPS(60);
+    Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
+    Texture2D nave = LoadTexture("./recursos/nave.png");
+
+     // Inicializar la posición de la nave
+    float naveX = screenWidth/2 -nave.width;
+    float naveY = (screenHeight-20) - nave.height;
+     
+
+     //Para evitar que la nave salga de la pantalla se establecen los limites de ella
+
+     // Definir los límites de la pantalla
+    const float limitLeft = 0;
+    const float limitRight = screenWidth - nave.width;
+     
+    
+    while (!WindowShouldClose()) {
+
+        // Actualizar la posición de la nave según la entrada del usuario
+        if (IsKeyDown(KEY_RIGHT))
+        {
+            naveX = (naveX + 5 > limitRight) ? limitRight : naveX + 5;
+        }
+        else if (IsKeyDown(KEY_LEFT))
+        {
+            naveX = (naveX - 5 < limitLeft) ? limitLeft : naveX - 5;
+        }
+
+        if (IsKeyDown(KEY_DOWN))
+        {
+            naveY += 0;
+        }
+        else if (IsKeyDown(KEY_UP))
+        {
+            naveY -= 0;
+        }
+
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        DrawTexture(gameBack, 0, 0, WHITE);
+        DrawTexture(nave, naveX, naveY, WHITE);
+        EndDrawing();
+    } 
+    CloseWindow();
+
+}
 
 
 
@@ -85,6 +127,7 @@ int main(void){
     // Inicializacion de la ventana y OpenGL , se de definen el alto y ancho de la ventana
     const int screenWidth = 650;
     const int screenHeight = 550;
+
 
     InitWindow(screenWidth, screenHeight, "Game Window");
     Texture2D background = LoadTexture("./recursos/fondo.png");
@@ -125,7 +168,7 @@ int main(void){
             ClearBackground(RAYWHITE);
 
             DrawTexture(background, 0, 0, WHITE);
-
+            
         draw_espectadorButton(&buttonEspectador); // Dibujar el botón
 
         
@@ -146,7 +189,7 @@ int main(void){
             //DrawText("BIENVENIDO A SPACE INVADERS", 190, 200, 20, BLACK);
             // Dibujar el fondo
             
-
+        
         EndDrawing();
     }
 
