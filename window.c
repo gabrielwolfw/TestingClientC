@@ -92,7 +92,7 @@ void ventanaJugador() {
     SetTargetFPS(60);
     Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
     Texture2D nave = LoadTexture("./recursos/nave.png");
-    Texture2D proyectil = LoadTexture("resources/proyectil.png");
+    Texture2D proyectil = LoadTexture("./resources/proyectil.png");
 
     // Crear array de proyectiles
     Proyectil proyectiles[MAX_PROYECTILES] = { 0 };
@@ -144,6 +144,7 @@ void ventanaJugador() {
             for (int i = 0; i < MAX_PROYECTILES; i++) {
                 if (!proyectiles[i].active) {
                     // Establecer la posición y velocidad del proyectil
+                    printf("ha realizado un disparo");
                     proyectiles[i].position = (Vector2) { naveX + nave.width/2 - proyectil.width/2, naveY };
                     proyectiles[i].speed = (Vector2) { 0, -10 };
                     proyectiles[i].active = true;
