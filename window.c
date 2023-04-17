@@ -163,17 +163,8 @@ void ventanaJugador() {
                 if (proyectiles[i].position.y < 0) proyectiles[i].active = false;
             }
         }
-
-    moverInvasor(&invasor, true);
-    if (invasor.posX > invasor.anchoPantalla - invasor.imagen1.width) {
-        moverInvasor(&invasor, false);
-        invasor.posY += invasor.velocidad;
-    } else if (invasor.posX < 0) {
-        moverInvasor(&invasor, true);
-        invasor.posY += invasor.velocidad;
-    }
         
-        
+        actualizarPosicion(&invasor, true);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
