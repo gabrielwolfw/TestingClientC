@@ -81,7 +81,7 @@ void ventanaJugador() {
     //Inicializar el invasor ovni
     Invasor invasor;
     inicializarInvasor(&invasor, screenWidth);
-
+    
 
 
      // Inicializar la posición de la nave
@@ -117,8 +117,7 @@ void ventanaJugador() {
             naveY -= 0;
         }
 
-        moverInvasor(&invasor, true);
-
+        actualizarInvasor(&invasor, true);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
