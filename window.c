@@ -4,6 +4,22 @@
 #include <stdio.h>
 #include "invasor.c"
 
+#define MAX_PROYECTILES 100
+
+
+//----------------------------
+// Definicion de estructuras
+//---------------------------
+
+//Estructura del proyectil
+
+typedef struct Proyectil {
+    Vector2 position;
+    Vector2 speed;
+    bool active;
+} Proyectil;
+
+
 typedef struct {
     Rectangle rect;
     Color color;
@@ -17,7 +33,6 @@ void init_button(Button* button, Rectangle rect, Color color) {
     button->color = color;
     button->pressed = false;
 }
-
 
 
 bool is_button_pressed(Button* button) {
@@ -69,6 +84,7 @@ void ventanaEspectador() {
 //Donde todas las acciones del jugador van a ocurrir
 void ventanaJugador() {
 
+
     // Inicializacion de la ventana y OpenGL , se de definen el alto y ancho de la ventana
     const int screenWidth = 630;
     const int screenHeight = 500;
@@ -76,29 +92,33 @@ void ventanaJugador() {
     SetTargetFPS(60);
     Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
     Texture2D nave = LoadTexture("./recursos/nave.png");
+    Texture2D proyectil = LoadTexture("resources/proyectil.png");
+
+    // Crear array de proyectiles
+    Proyectil proyectiles[MAX_PROYECTILES] = { 0 };
+    bool disparando = false;
 
 
     //Inicializar el invasor ovni
     Invasor invasor;
     inicializarInvasor(&invasor, screenWidth);
-    
 
 
      // Inicializar la posición de la nave
     float naveX = screenWidth/2 -nave.width;
     float naveY = (screenHeight-20) - nave.height;
-     
+
 
      //Para evitar que la nave salga de la pantalla se establecen los limites de ella
-
-     // Definir los límites de la pantalla
     const float limitLeft = 0;
     const float limitRight = screenWidth - nave.width;
      
-    
+     
+    //Bucle principal del juego
     while (!WindowShouldClose()) {
 
-        // Actualizar la posición de la nave según la entrada del usuario
+        //Movimiento de la nave con las teclas derecha e izquierda
+
         if (IsKeyDown(KEY_RIGHT))
         {
             naveX = (naveX + 5 > limitRight) ? limitRight : naveX + 5;
@@ -117,12 +137,48 @@ void ventanaJugador() {
             naveY -= 0;
         }
 
+        // Comprobar si se ha presionado la tecla espacio
+        if (IsKeyPressed(KEY_SPACE) &&! disparando) {
+            // Buscar un proyectil disponible en el array
+            disparando = true;
+            for (int i = 0; i < MAX_PROYECTILES; i++) {
+                if (!proyectiles[i].active) {
+                    // Establecer la posición y velocidad del proyectil
+                    proyectiles[i].position = (Vector2) { naveX + nave.width/2 - proyectil.width/2, naveY };
+                    proyectiles[i].speed = (Vector2) { 0, -10 };
+                    proyectiles[i].active = true;
+                    break;
+                }
+            }
+        }
+
+
+        // Actualizar la posición de los proyectiles activos
+        for (int i = 0; i < MAX_PROYECTILES; i++) {
+            if (proyectiles[i].active) {
+                proyectiles[i].position.x += proyectiles[i].speed.x;
+                proyectiles[i].position.y += proyectiles[i].speed.y;
+                // Si el proyectil sale de la pantalla, desactivarlo
+                if (proyectiles[i].position.y < 0) proyectiles[i].active = false;
+            }
+        }
+
+        
         actualizarInvasor(&invasor, true);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
         DrawTexture(nave, naveX, naveY, WHITE);
         dibujarInvasor(&invasor);
+
+        // Dibujar los proyectiles activos
+        for (int i = 0; i < MAX_PROYECTILES; i++) {
+    if (proyectiles[i].active) {
+        DrawTexture(proyectil, proyectiles[i].position.x, proyectiles[i].position.y, WHITE);
+    }
+}
+
+        
         EndDrawing();
     } 
     CloseWindow();
