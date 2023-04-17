@@ -15,8 +15,8 @@ typedef struct {
 } Invasor;
 
 void inicializarInvasor(Invasor *invasor, int anchoPantalla) {
-    invasor->posX = 0;
-    invasor->posY = 0;
+    invasor->posX = 400;
+    invasor->posY = 10;
     invasor->anchoPantalla = anchoPantalla;
     invasor->vida = 50;
     invasor->imagen1 = LoadTexture("./recursos/calamar.png");
@@ -24,23 +24,11 @@ void inicializarInvasor(Invasor *invasor, int anchoPantalla) {
     invasor->velocidad = 1;
 }
 
-void moverInvasor(Invasor *invasor, bool direccion)  {
+void moverInvasor(Invasor *invasor, bool direccion) {
     if (direccion) {
         invasor->posX += 2;
-        invasor->posY += invasor->velocidad;
     } else {
         invasor->posX -= 2;
-        invasor->posY += invasor->velocidad;
-    }
-}
-
-void actualizarInvasor(Invasor *invasor, bool direccion){
-    moverInvasor(invasor, direccion);
-    if(invasor->posX > 590){
-        moverInvasor(invasor, !direccion);
-    }else if (invasor->posX < 0)
-    {
-        moverInvasor(invasor, direccion);
     }
 }
 

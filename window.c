@@ -163,28 +163,33 @@ void ventanaJugador() {
             }
         }
 
+    moverInvasor(&invasor, true);
+    if (invasor.posX > invasor.anchoPantalla - invasor.imagen1.width) {
+        moverInvasor(&invasor, false);
+        invasor.posY += invasor.velocidad;
+    } else if (invasor.posX < 0) {
+        moverInvasor(&invasor, true);
+        invasor.posY += invasor.velocidad;
+    }
         
-        actualizarInvasor(&invasor, true);
+        
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
-        DrawTexture(nave, naveX, naveY, WHITE);
+        DrawTexture(nave, naveX, naveY, WHITE);   
         dibujarInvasor(&invasor);
-
         // Dibujar los proyectiles activos
         for (int i = 0; i < MAX_PROYECTILES; i++) {
-    if (proyectiles[i].active) {
-        DrawTexture(proyectil, proyectiles[i].position.x, proyectiles[i].position.y, WHITE);
-    }
-}
-
+            if (proyectiles[i].active) {
+                DrawTexture(proyectil, proyectiles[i].position.x, proyectiles[i].position.y, WHITE);
+            }
+        }
         
         EndDrawing();
-    } 
+    } // <- Aquí es donde debería cerrarse el bucle principal
+
     CloseWindow();
-
 }
-
 
 
 
