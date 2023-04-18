@@ -17,11 +17,11 @@ int main()
     Texture2D bullet = LoadTexture("./recursos/proyectil.png");
     Texture2D invasor = LoadTexture("./recursos/cangrejo.png");
 
-    const float posXInvasor = 50;
-    const float posYInvasor = 20;
+    float posXInvasor = 50;
+    float posYInvasor = 20;
     Vector2 invasorPosicion = {posYInvasor,posXInvasor};
     bool direccion = true;
-    const float speedInvasor = 0.5;
+    float speedInvasor = 0.5;
 
     // Set the starting position of the spaceship
     Vector2 spaceshipPosition = {screenWidth / 2 - spaceship.width / 2, screenHeight - spaceship.height - 20};
