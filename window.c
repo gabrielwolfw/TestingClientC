@@ -200,7 +200,7 @@ int main(void){
 
 
     InitWindow(screenWidth, screenHeight, "Game Window");
-    Texture2D background = LoadTexture("./recursos/fondo.png");
+    Texture2D background = LoadTexture("./recursos/fondo5.png");
 
     //CREANDO UN BOTON
     //Button espectador
