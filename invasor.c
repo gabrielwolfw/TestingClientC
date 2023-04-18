@@ -12,49 +12,46 @@ typedef struct {
     Texture2D imagen1;      // invader's image 1
     Texture2D imagen2;      // invader's image 2
     float velocidad;
+    Vector2 posicionInvasor;
 } Invasor;
 
 void inicializarInvasor(Invasor *invasor, int anchoPantalla) {
-    invasor->posX = 50.0f;
-    invasor->posY = 50.0f;
+    invasor->posX = 50;
+    invasor->posY = 20;
     invasor->anchoPantalla = anchoPantalla;
     invasor->vida = 50;
     invasor->imagen1 = LoadTexture("./recursos/calamar.png");
     invasor->imagen2 = LoadTexture("./recursos/explosion.png");
-    invasor->velocidad = 1.5f;
+    invasor->velocidad = 2;
+    invasor->posicionInvasor.x = invasor->posX;
+    invasor->posicionInvasor.y = invasor->posY;
+    
 }
 
 void moverInvasor(Invasor *invasor, bool direccionDerecha) {
-    if (direccionDerecha) {
-        invasor->posX += invasor->velocidad;
-    } else {
-        invasor->posX -= invasor->velocidad;
-    }
+    if(direccionDerecha){
+            invasor->posicionInvasor.x += invasor->velocidad;
+            invasor->posicionInvasor.y += 0.1;
+        }else{
+            invasor->posicionInvasor.x -= invasor->velocidad;
+            invasor->posicionInvasor.y += 0.1;
+        }
 }
 
 void actualizarPosicion(Invasor *invasor, bool direccionDerecha) {
-    // Si el invasor llegó al límite derecho, cambiamos la dirección del movimiento.
-    moverInvasor(invasor, direccionDerecha);
-    if (invasor->posX >= 400) {
+    moverInvasor(invasor,direccionDerecha);
+    if(invasor->posicionInvasor.x >= 300){
         direccionDerecha = false;
-        moverInvasor(invasor, direccionDerecha);
-    }
-    // Si el invasor llegó al límite izquierdo, cambiamos la dirección del movimiento.
-    else if (invasor->posX <= 0) {
+    } else if(invasor->posicionInvasor.x <= 0){
         direccionDerecha = true;
-        moverInvasor(invasor, direccionDerecha);
     }
 }
 
-
-
-
 void dibujarInvasor(Invasor *invasor) {
-    Vector2 posicion = { invasor->posX, invasor->posY };
     if (invasor->vida > 25) {
-        DrawTexture(invasor->imagen1, posicion.x, posicion.y, WHITE);
+        DrawTexture(invasor->imagen1, invasor->posicionInvasor.x, invasor->posicionInvasor.y, WHITE);
     } else {
-        DrawTexture(invasor->imagen2, posicion.x, posicion.y, WHITE);
+        DrawTexture(invasor->imagen2, invasor->posicionInvasor.x, invasor->posicionInvasor.y, WHITE);
     }
 }
 

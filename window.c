@@ -105,6 +105,8 @@ void ventanaJugador() {
     //Inicializar el invasor ovni
     Invasor invasor;
     inicializarInvasor(&invasor, screenWidth);
+    bool direccionDerecha = true;
+
 
 
      // Inicializar la posición de la nave
@@ -168,13 +170,19 @@ void ventanaJugador() {
                 }
             }
         }
-        
-        actualizarPosicion(&invasor, true);
+
+        actualizarPosicion(&invasor, direccionDerecha);
+        if (invasor.posicionInvasor.x < 0 || invasor.posicionInvasor.x > screenWidth - invasor.imagen1.width)
+        {
+            direccionDerecha = !direccionDerecha;
+            }
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
         DrawTexture(nave, naveX, naveY, WHITE);   
         dibujarInvasor(&invasor);
+        
+        //DrawTexture(&invasor,invasor.posicionInvasor.x,invasor.posicionInvasor.y,WHITE);
         
         for (int i = 0; i < MAX_PROYECTILES; i++)
         {

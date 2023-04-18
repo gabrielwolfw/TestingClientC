@@ -94,6 +94,7 @@ int main()
     // Unload the game objects
     UnloadTexture(spaceship);
     UnloadTexture(bullet);
+    UnloadTexture(invasor);
 
     // Close the game window
     CloseWindow();
