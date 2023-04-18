@@ -1,46 +1,53 @@
 #include "raylib.h"
-#include "stdbool.h" // Libreria para usar booleanos
+#include "stdbool.h"
 #include <stdlib.h>
 #include <stdio.h>
 
 typedef struct {
-    float posX;           // posición x del invasor en la pantalla
-    float posY;           // posición y del invasor en la pantalla
-    int anchoPantalla;  // ancho de la pantalla
-    int alturaPantalla; // altura de la pantalla
-    int vida;           // vida del invasor
-    Texture2D imagen1;  // imagen del invasor 1
-    Texture2D imagen2;  // imagen del invasor 2
+    float posX;             // position x of the invader on the screen
+    float posY;             // position y of the invader on the screen
+    int anchoPantalla;      // screen width
+    int alturaPantalla;     // screen height
+    int vida;               // invader's life
+    Texture2D imagen1;      // invader's image 1
+    Texture2D imagen2;      // invader's image 2
     float velocidad;
 } Invasor;
 
 void inicializarInvasor(Invasor *invasor, int anchoPantalla) {
-    invasor->posX = 50;
-    invasor->posY = 50;
+    invasor->posX = 50.0f;
+    invasor->posY = 50.0f;
     invasor->anchoPantalla = anchoPantalla;
     invasor->vida = 50;
     invasor->imagen1 = LoadTexture("./recursos/calamar.png");
     invasor->imagen2 = LoadTexture("./recursos/explosion.png");
-    invasor->velocidad = 1;
+    invasor->velocidad = 1.5f;
 }
 
-
-//Movilidad del invasor de izquierda a derecha en la pantalla
-void moverInvasor(Invasor *invasor, bool direccion) {
-    if (direccion) {
-        invasor->posX += 0.5;
+void moverInvasor(Invasor *invasor, bool direccionDerecha) {
+    if (direccionDerecha) {
+        invasor->posX += invasor->velocidad;
     } else {
-        invasor->posX -= 2;
+        invasor->posX -= invasor->velocidad;
     }
 }
-//Actualiza la movilidad del invasor
-void actualizarPosicion(Invasor *invasor, bool direccion){
-    moverInvasor(invasor, direccion);
-    if(invasor->posX >= 440 - invasor->imagen1.width || invasor->posX <= 0){
-        moverInvasor(invasor, !direccion);
-        invasor->posY += invasor->velocidad;
+
+void actualizarPosicion(Invasor *invasor, bool direccionDerecha) {
+    // Si el invasor llegó al límite derecho, cambiamos la dirección del movimiento.
+    moverInvasor(invasor, direccionDerecha);
+    if (invasor->posX >= 400) {
+        direccionDerecha = false;
+        moverInvasor(invasor, direccionDerecha);
+    }
+    // Si el invasor llegó al límite izquierdo, cambiamos la dirección del movimiento.
+    else if (invasor->posX <= 0) {
+        direccionDerecha = true;
+        moverInvasor(invasor, direccionDerecha);
     }
 }
+
+
+
 
 void dibujarInvasor(Invasor *invasor) {
     Vector2 posicion = { invasor->posX, invasor->posY };
