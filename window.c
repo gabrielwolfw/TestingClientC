@@ -94,6 +94,10 @@ void ventanaJugador() {
     Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
     Texture2D nave = LoadTexture("./recursos/nave.png");
     Texture2D proyectil = LoadTexture("./recursos/proyectil.png");
+    Texture2D bunker1 = LoadTexture("./recursos/bunker.png");
+    Texture2D bunker2 = LoadTexture("./recursos/bunker.png");
+    Texture2D bunker3 = LoadTexture("./recursos/bunker.png");
+    Texture2D bunker4 = LoadTexture("./recursos/bunker.png");
 
 
     Proyectil proyectiles[MAX_PROYECTILES] = { 10 };
@@ -112,6 +116,27 @@ void ventanaJugador() {
      // Inicializar la posición de la nave
     float naveX = screenWidth/2 -nave.width;
     float naveY = (screenHeight-20) - nave.height;
+
+    // --------------------------
+    //   POSICIONES DE BUNKERS
+    //---------------------------
+    //Bunker 1
+    float bunker1X = 70;
+    float bunker1Y = 340;
+
+    //Bunker 2
+    float bunker2X = 220;
+    float bunker2Y= 340;
+
+    //Bunker 3
+    float bunker3X= 360;
+    float bunker3Y= 340;
+
+    //Bunker 4
+    float bunker4X = 510;
+    float bunker4Y= 340;
+
+
 
 
      //Para evitar que la nave salga de la pantalla se establecen los limites de ella
@@ -180,6 +205,10 @@ void ventanaJugador() {
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
         DrawTexture(nave, naveX, naveY, WHITE);   
+        DrawTexture(bunker1, bunker1X, bunker1Y, WHITE);  
+        DrawTexture(bunker2, bunker2X, bunker2Y, WHITE);  
+        DrawTexture(bunker3, bunker3X, bunker3Y, WHITE);  
+        DrawTexture(bunker4, bunker4X, bunker4Y, WHITE);  
         dibujarInvasor(&invasor);
         
         //DrawTexture(&invasor,invasor.posicionInvasor.x,invasor.posicionInvasor.y,WHITE);
