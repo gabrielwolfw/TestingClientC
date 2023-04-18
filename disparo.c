@@ -13,6 +13,8 @@ typedef struct{
 
 }Disparo;
 
+
+
 void inicialarDisparo(Disparo *disparo){
     disparo->posX = 0;
     disparo->posY = 0;

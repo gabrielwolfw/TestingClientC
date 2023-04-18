@@ -17,6 +17,7 @@ typedef struct Proyectil {
     Vector2 position;
     Vector2 speed;
     bool active;
+    Color color;
 } Proyectil;
 
 
@@ -92,12 +93,14 @@ void ventanaJugador() {
     SetTargetFPS(60);
     Texture2D gameBack = LoadTexture("./recursos/fondo1.png");
     Texture2D nave = LoadTexture("./recursos/nave.png");
-    Texture2D proyectil = LoadTexture("./resources/proyectil.png");
+    Texture2D proyectil = LoadTexture("./recursos/proyectil.png");
 
-    // Crear array de proyectiles
-    Proyectil proyectiles[MAX_PROYECTILES] = { 0 };
+
+    Proyectil proyectiles[MAX_PROYECTILES] = { 10 };
+    int proyectilIndex = 0;
     bool disparando = false;
 
+     
 
     //Inicializar el invasor ovni
     Invasor invasor;
@@ -137,30 +140,32 @@ void ventanaJugador() {
             naveY -= 0;
         }
 
-        // Comprobar si se ha presionado la tecla espacio
-        if (IsKeyPressed(KEY_SPACE) &&! disparando) {
-            // Buscar un proyectil disponible en el array
+        // Detectar si se presionó la tecla de espacio y no se está disparando
+        if (IsKeyPressed(KEY_SPACE) && !disparando)
+        {
             disparando = true;
-            for (int i = 0; i < MAX_PROYECTILES; i++) {
-                if (!proyectiles[i].active) {
-                    // Establecer la posición y velocidad del proyectil
-                    printf("ha realizado un disparo");
-                    proyectiles[i].position = (Vector2) { naveX + nave.width/2 - proyectil.width/2, naveY };
-                    proyectiles[i].speed = (Vector2) { 0, -10 };
-                    proyectiles[i].active = true;
-                    break;
-                }
-            }
+            proyectiles[proyectilIndex].position = (Vector2){ naveX, naveY };
+
+            proyectiles[proyectilIndex].speed = (Vector2){ 0.0f, -10.0f };
+            proyectiles[proyectilIndex].active = true;
+            proyectilIndex = (proyectilIndex + 1) % MAX_PROYECTILES;
         }
 
-
-        // Actualizar la posición de los proyectiles activos
-        for (int i = 0; i < MAX_PROYECTILES; i++) {
-            if (proyectiles[i].active) {
+        // Actualizar la posición de los proyectiles
+        for (int i = 0; i < MAX_PROYECTILES; i++)
+        {
+            if (proyectiles[i].active)
+            {
                 proyectiles[i].position.x += proyectiles[i].speed.x;
                 proyectiles[i].position.y += proyectiles[i].speed.y;
-                // Si el proyectil sale de la pantalla, desactivarlo
-                if (proyectiles[i].position.y < 0) proyectiles[i].active = false;
+
+
+                // Verificar si el proyectil ha salido de la pantalla
+                if (proyectiles[i].position.y < -proyectil.height)
+                {
+                    proyectiles[i].active = false;
+                    disparando = false;
+                }
             }
         }
         
@@ -170,12 +175,14 @@ void ventanaJugador() {
         DrawTexture(gameBack, 0, 0, WHITE);
         DrawTexture(nave, naveX, naveY, WHITE);   
         dibujarInvasor(&invasor);
-        // Dibujar los proyectiles activos
-        for (int i = 0; i < MAX_PROYECTILES; i++) {
-            if (proyectiles[i].active) {
-                DrawTexture(proyectil, proyectiles[i].position.x, proyectiles[i].position.y, WHITE);
-            }
+        
+        for (int i = 0; i < MAX_PROYECTILES; i++)
+        {
+            if (proyectiles[i].active)
+            {DrawTexture(proyectil, proyectiles[i].position.x, proyectiles[i].position.y, WHITE);}
+            
         }
+       
         
         EndDrawing();
     } // <- Aquí es donde debería cerrarse el bucle principal
@@ -212,8 +219,6 @@ int main(void){
     init_button(&buttonEspectador, buttonEspecRect, buttonEspecColor);
     init_button(&buttonJugar, buttonJugRect, buttonJugColor);
 
-
-    
 
     // Configurar nuestro juego para que se ejecute a 60 fotogramas por segundo
     SetTargetFPS(60);              
