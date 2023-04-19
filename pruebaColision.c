@@ -79,7 +79,7 @@ int main()
             invasorPosicion.y += 0.1;
         }
 
-        if(invasorPosicion.x >= 400){
+        if(invasorPosicion.x >= 450){
             direccion = false;
         }else if(invasorPosicion.x <= 0){
             direccion = true;
@@ -103,19 +103,16 @@ int main()
             if (CheckCollisionRecs(bulletRect, invasorRect)) {
                 // Colisión detectada: desactivar la bala, eliminar al invasor y actualizar su posición
                 bulletActive = false;
-                //invasorPosicion.x = rand() % (screenWidth - invasor.width);
-                //invasorPosicion.y = -invasor.height;
-                invasorEliminado = true;
+                invasorPosicion.x = 0;
+                invasorPosicion.y = +invasor.height;
+               invasorEliminado = false;
                 }
             }
-
         // Eliminar al invasor si ha sido impactado
         if (invasorEliminado) {
              invasorPosicion.x = -invasor.width; // Mover al invasor fuera de la pantalla
-             invasorEliminado = false;
+             invasorEliminado = true;
             }
-
-        
 
         // Draw the game objects
         BeginDrawing();
