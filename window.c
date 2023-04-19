@@ -205,13 +205,15 @@ void ventanaJugador() {
             }
         }
 
+
+        //Actualizacion del movimiento del invasor, cangrejo
         actualizarPosicion(&invasor, direccionDerecha);
         if (invasor.posicionInvasor.x < 0 || invasor.posicionInvasor.x > screenWidth - invasor.imagen1.width)
         {
             direccionDerecha = !direccionDerecha;
             }
         
-
+        //Actualizacion del movimiento del invasor, cangrejo
         actualizarPosicionOvni(&ovni);
     
       
