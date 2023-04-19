@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "invasor.c"
+#include "ovni.c"
+
 
 #define MAX_PROYECTILES 100
 
@@ -106,10 +108,15 @@ void ventanaJugador() {
 
      
 
-    //Inicializar el invasor ovni
+    //Inicializar el invasor calamar
     Invasor invasor;
     inicializarInvasor(&invasor, screenWidth);
     bool direccionDerecha = true;
+
+    //Inicializar el ovni
+    Ovni ovni;
+    inicializarOvni(&ovni, screenWidth, screenHeight);
+    
 
 
 
@@ -135,8 +142,6 @@ void ventanaJugador() {
     //Bunker 4
     float bunker4X = 510;
     float bunker4Y= 340;
-
-
 
 
      //Para evitar que la nave salga de la pantalla se establecen los limites de ella
@@ -178,6 +183,10 @@ void ventanaJugador() {
             proyectilIndex = (proyectilIndex + 1) % MAX_PROYECTILES;
         }
 
+        // mostrar el ovni
+        moverOvni(&ovni);
+
+
         // Actualizar la posición de los proyectiles
         for (int i = 0; i < MAX_PROYECTILES; i++)
         {
@@ -201,6 +210,12 @@ void ventanaJugador() {
         {
             direccionDerecha = !direccionDerecha;
             }
+        
+
+        actualizarPosicionOvni(&ovni);
+    
+      
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(gameBack, 0, 0, WHITE);
@@ -210,6 +225,8 @@ void ventanaJugador() {
         DrawTexture(bunker3, bunker3X, bunker3Y, WHITE);  
         DrawTexture(bunker4, bunker4X, bunker4Y, WHITE);  
         dibujarInvasor(&invasor);
+        DibujarOvni(&ovni);
+        
         
         //DrawTexture(&invasor,invasor.posicionInvasor.x,invasor.posicionInvasor.y,WHITE);
         
@@ -223,6 +240,7 @@ void ventanaJugador() {
         
         EndDrawing();
     } // <- Aquí es donde debería cerrarse el bucle principal
+
 
     CloseWindow();
 }
