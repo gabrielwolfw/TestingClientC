@@ -116,8 +116,6 @@ void ventanaJugador() {
     //Inicializar el ovni
     Ovni ovni;
     inicializarOvni(&ovni, screenWidth, screenHeight);
-    
-
 
 
      // Inicializar la posición de la nave
@@ -214,6 +212,7 @@ void ventanaJugador() {
             }
         
         //Actualizacion del movimiento del invasor, cangrejo
+        
         actualizarPosicionOvni(&ovni);
     
       

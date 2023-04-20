@@ -3,6 +3,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+typedef struct Sprite {
+    float pos_x;
+    float pos_y;
+    float speed_x;
+    Texture2D texture;
+} Sprite;
+
 
 int main()
 {
@@ -11,9 +18,20 @@ int main()
     const int screenHeight = 450;
     InitWindow(screenWidth, screenHeight, "Space Shooter");
 
+
     // Load the spaceship and bullet images
     Texture2D spaceship = LoadTexture("./recursos/nave.png");
     Texture2D bullet = LoadTexture("./recursos/proyectil.png");
+     // Cargar textura del sprite
+    Texture2D spriteTexture = LoadTexture("./recursos/ovni.png");
+    // Crear instancia del sprite
+    Sprite sprite = {
+        .pos_x = 0,
+        .pos_y = GetRandomValue(10,250),
+        .speed_x = 0.15,
+        .texture = spriteTexture
+    };
+
 
     // Set the starting position of the spaceship
     Vector2 spaceshipPosition = {screenWidth / 2 - spaceship.width / 2, screenHeight - spaceship.height - 20};
@@ -56,6 +74,15 @@ int main()
 
             // Deactivate the bullet if it goes off the screen
             if (bulletPosition.y + bullet.height < 0) bulletActive = false;
+
+        }
+
+        // Actualizar posición del sprite
+             sprite.pos_x += sprite.speed_x;
+
+        // Verificar si el sprite ha alcanzado el borde derecho de la pantalla
+        if (sprite.pos_x > screenWidth) {
+            UnloadTexture(sprite.texture);
         }
 
         // Draw the game objects
@@ -63,6 +90,8 @@ int main()
         ClearBackground(RAYWHITE);
         DrawTexture(spaceship, spaceshipPosition.x, spaceshipPosition.y, WHITE);
         if (bulletActive) DrawTexture(bullet, bulletPosition.x, bulletPosition.y, WHITE);
+
+        DrawTexture(sprite.texture, sprite.pos_x, sprite.pos_y, WHITE);
         EndDrawing();
     }
 
@@ -75,3 +104,7 @@ int main()
 
     return 0;
 }
+
+
+
+
