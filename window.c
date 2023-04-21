@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "invasor.c"
 #include "ovni.c"
-
+#include "ventanaJuego.c"
 
 #define MAX_PROYECTILES 100
 
@@ -308,7 +308,7 @@ int main(void){
         draw_jugadorButton(&buttonJugar);
         if(is_button_pressed(&buttonJugar)){
             printf("Ha sido presionado el buttonJugador");
-            ventanaJugador(); // Abrir la nueva ventana
+            ventanaJuego(); // Abrir la nueva ventana
             init_button(&buttonJugar, (Rectangle){screenWidth/2 - 100, screenHeight/2 - 25, 200, 50}, GRAY);
         }
         
