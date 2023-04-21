@@ -59,7 +59,7 @@ int ventanaJuego()
     //Inicializa los invasoresCangrejos
     for (int i = 0; i < MAX_INVASORES; i++) {
     invasoresCangrejos[i].cangrejo = LoadTexture("./recursos/cangrejo.png");
-    invasoresCangrejos[i].position = (Vector2){ 50 + i * 100, 20 };
+    invasoresCangrejos[i].position = (Vector2){ 50 + i * 100, 20 + invasoresCangrejos[i].cangrejo.height + 10};
     invasoresCangrejos[i].activo = true;
     invasoresCangrejos[i].ancho = invasoresCangrejos[i].cangrejo.width;
     invasoresCangrejos[i].alto = invasoresCangrejos[i].cangrejo.height;
@@ -75,7 +75,7 @@ int ventanaJuego()
     //Inicializar Invasores Calamar
     for (int i = 0; i < MAX_CALAMAR; i++) {
     invasoresCalamar[i].calamar = LoadTexture("./recursos/calamar.png");
-    invasoresCalamar[i].positionCalamar = (Vector2){ 50 + i * 100, 20 + invasoresCalamar[i].calamar.height + 10};
+    invasoresCalamar[i].positionCalamar = (Vector2){50 + i * 100, 20 + invasoresCalamar[i].calamar.height + 10 + invasoresCalamar[i].calamar.height + 10};
     invasoresCalamar[i].activoCala = true;
     invasoresCalamar[i].anchoCalamar = invasoresCangrejos[i].cangrejo.width;
     invasoresCalamar[i].altoCalamar = invasoresCangrejos[i].cangrejo.height;
@@ -90,7 +90,7 @@ int ventanaJuego()
     //Inicializar
     for (int i = 0; i < MAX_PULPO; i++) {
     invasoresPulpo[i].pulpo = LoadTexture("./recursos/pulpo.png");
-    invasoresPulpo[i].positionPulpo = (Vector2){ 50 + i * 100, 20 + invasoresCalamar[i].calamar.height + 10 + invasoresPulpo[i].pulpo.height + 10};
+    invasoresPulpo[i].positionPulpo = (Vector2){50 + i * 100, 20 };
     invasoresPulpo[i].activoPulpo = true;
     invasoresPulpo[i].anchoPulpo = invasoresPulpo[i].pulpo.width;
     invasoresPulpo[i].altoPulpo = invasoresPulpo[i].pulpo.height;
@@ -118,9 +118,9 @@ int ventanaJuego()
     bool direccionPulpo = true;
 
     int puntos = 0; // Inicializar contador de puntos
-    int puntosCangrejo = 10;
-    int puntosCalamar = 20;
-    int puntosPulpo = 30; 
+    int puntosCangrejo = 20;
+    int puntosCalamar = 10;
+    int puntosPulpo = 40;
 
 
     // Main game loop
