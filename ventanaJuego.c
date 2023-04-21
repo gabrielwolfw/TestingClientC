@@ -3,6 +3,7 @@
 #include "stdbool.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "ovni.c"
 
 
         
@@ -70,7 +71,11 @@ int ventanaJuego()
 
     //Bunker 4
     float bunker4X = 700;
-    float bunker4Y= 350;  
+    float bunker4Y= 350;
+    
+    //Inicializar el ovni
+    Ovni ovni;
+    inicializarOvni(&ovni, screenWidth, screenHeight);
 
 
     //InvasorCangrejo: definitivo, cangrejo
@@ -196,8 +201,8 @@ int ventanaJuego()
         }
     }
 
-        
-
+        // mostrar el ovni
+        moverOvni(&ovni);
         //Colisiones de los invasoresCangrejos
         // Chequear colisiones de disparos con invasoresCangrejos
 
@@ -355,7 +360,8 @@ int ventanaJuego()
         DrawTexture(bunker1, bunker1X, bunker1Y, WHITE);  
         DrawTexture(bunker2, bunker2X, bunker2Y, WHITE);  
         DrawTexture(bunker3, bunker3X, bunker3Y, WHITE);  
-        DrawTexture(bunker4, bunker4X, bunker4Y, WHITE);  
+        DrawTexture(bunker4, bunker4X, bunker4Y, WHITE);
+        DibujarOvni(&ovni);  
         EndDrawing();
     }
 

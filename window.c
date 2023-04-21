@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "invasor.c"
-#include "ovni.c"
+//#include "ovni.c"
 #include "ventanaJuego.c"
 
 #define MAX_PROYECTILES 100
