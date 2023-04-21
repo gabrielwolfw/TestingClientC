@@ -27,13 +27,23 @@ typedef struct{
 }InvasorCalamar;
 
 
+typedef struct{
+    Texture2D pulpo;
+    Vector2 positionPulpo;
+    bool activoPulpo;
+    int altoPulpo;
+    int anchoPulpo;
+    float speedPulpo;
+}InvasorPulpo;
+
+
 
 
 int main()
 {
     // Initialize the game window and other settings
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 900;
+    const int screenHeight = 500;
     InitWindow(screenWidth, screenHeight, "Space Shooter");
 
     // Load the spaceship and bullet images
@@ -65,12 +75,28 @@ int main()
     //Inicializar Invasores Calamar
     for (int i = 0; i < MAX_CALAMAR; i++) {
     invasoresCalamar[i].calamar = LoadTexture("./recursos/calamar.png");
-    invasoresCalamar[i].positionCalamar = (Vector2){ 50 + i * 110, 20 + invasoresCalamar[i].calamar.height + 10};
+    invasoresCalamar[i].positionCalamar = (Vector2){ 50 + i * 100, 20 + invasoresCalamar[i].calamar.height + 10};
     invasoresCalamar[i].activoCala = true;
     invasoresCalamar[i].anchoCalamar = invasoresCangrejos[i].cangrejo.width;
     invasoresCalamar[i].altoCalamar = invasoresCangrejos[i].cangrejo.height;
     invasoresCalamar[i].speedCalamar = 100;
     }
+
+    //Invasores Pulpo
+    const int MAX_PULPO = 5;
+    InvasorPulpo invasoresPulpo[MAX_PULPO];
+    int pulposEliminados = 0;
+
+    //Inicializar
+    for (int i = 0; i < MAX_PULPO; i++) {
+    invasoresPulpo[i].pulpo = LoadTexture("./recursos/pulpo.png");
+    invasoresPulpo[i].positionPulpo = (Vector2){ 50 + i * 100, 20 + invasoresCalamar[i].calamar.height + 10 + invasoresPulpo[i].pulpo.height + 10};
+    invasoresPulpo[i].activoPulpo = true;
+    invasoresPulpo[i].anchoPulpo = invasoresPulpo[i].pulpo.width;
+    invasoresPulpo[i].altoPulpo = invasoresPulpo[i].pulpo.height;
+    invasoresPulpo[i].speedPulpo = 100;
+    }
+
 
 
     // Set the starting position of the spaceship
@@ -87,6 +113,9 @@ int main()
     // Set the status of the bullet (active or inactive)
     bool bulletActive = false;
     bool invaderDirectionRight = true;
+
+    bool direccionCalmar = true;
+    bool direccionPulpo = true;
 
     // Main game loop
     while (!WindowShouldClose())
@@ -125,7 +154,7 @@ int main()
                     if (invasoresCangrejos[i].position.x + invasoresCangrejos[i].ancho >= screenWidth) {
                         invaderDirectionRight = false;
                         for (int j = 0; j < MAX_INVASORES; j++) {
-                            invasoresCangrejos[j].position.y += invasoresCangrejos[j].alto;
+                            invasoresCangrejos[j].position.y += invasoresCangrejos[j].speedInvasor;
                             }
                         }
                 } else {
@@ -133,7 +162,7 @@ int main()
                 if (invasoresCangrejos[i].position.x <= 0) {
                     invaderDirectionRight = true;
                     for (int j = 0; j < MAX_INVASORES; j++) {
-                        invasoresCangrejos[j].position.y += invasoresCangrejos[j].alto;
+                        invasoresCangrejos[j].position.y += invasoresCangrejos[j].speedInvasor;//Velocidad normal
                     }
                 }
             }
@@ -171,20 +200,20 @@ int main()
         //Barreras y movimiento de los invasoresCalamar
         for (int i = 0; i < MAX_CALAMAR; i++) {
             if (invasoresCalamar[i].activoCala) {
-                if (invaderDirectionRight) {
+                if (direccionCalmar) {
                     invasoresCalamar[i].positionCalamar.x += invasoresCalamar[i].speedCalamar * GetFrameTime();
                     if (invasoresCalamar[i].positionCalamar.x + invasoresCalamar[i].anchoCalamar >= screenWidth) {
-                        invaderDirectionRight = false;
+                        direccionCalmar = false;
                         for (int j = 0; j < MAX_CALAMAR; j++) {
-                            invasoresCalamar[j].positionCalamar.y += invasoresCalamar[j].altoCalamar;
+                            invasoresCalamar[j].positionCalamar.y += invasoresCalamar[j].speedCalamar;
                             }
                         }
                 } else {
                 invasoresCalamar[i].positionCalamar.x -= invasoresCalamar[i].speedCalamar * GetFrameTime();
                 if (invasoresCalamar[i].positionCalamar.x <= 0) {
-                    invaderDirectionRight = true;
+                    direccionCalmar = true;
                     for (int j = 0; j < MAX_CALAMAR; j++) {
-                        invasoresCalamar[j].positionCalamar.y += invasoresCalamar[j].altoCalamar;
+                        invasoresCalamar[j].positionCalamar.y += invasoresCalamar[j].speedCalamar;
                     }
                 }
             }
@@ -211,6 +240,48 @@ int main()
             }
         }
 
+        //Barreras y movimiento de los invasoresPulpo
+        for (int i = 0; i < MAX_PULPO; i++) {
+            if (invasoresPulpo[i].activoPulpo) {
+                if (direccionPulpo) {
+                    invasoresPulpo[i].positionPulpo.x += invasoresPulpo[i].speedPulpo * GetFrameTime();
+                    if (invasoresPulpo[i].positionPulpo.x + invasoresPulpo[i].anchoPulpo >= screenWidth) {
+                        direccionPulpo = false;
+                        for (int j = 0; j < MAX_PULPO; j++) {
+                            invasoresPulpo[j].positionPulpo.y += invasoresPulpo[j].speedPulpo;
+                            }
+                        }
+                } else {
+                invasoresPulpo[i].positionPulpo.x -= invasoresPulpo[i].speedPulpo * GetFrameTime();
+                if (invasoresPulpo[i].positionPulpo.x <= 0) {
+                    direccionPulpo = true;
+                    for (int j = 0; j < MAX_PULPO; j++) {
+                        invasoresPulpo[j].positionPulpo.y += invasoresPulpo[j].speedPulpo;
+                    }
+                }
+            }
+        }
+    }
+        //Deteccion de colisiones con las balas de los calamares
+        if (bulletActive) {
+            for (int j = 0; j < MAX_PULPO; j++) {
+                if (invasoresPulpo[j].activoPulpo) {
+                    // Chequear si el disparo colisiona con el InvasorCangrejo
+                    if (CheckCollisionRecs((Rectangle){bulletPosition.x, bulletPosition.y, bullet.width, bullet.height},
+                                    (Rectangle){invasoresPulpo[j].positionPulpo.x, invasoresPulpo[j].positionPulpo.y, invasoresPulpo[j].anchoPulpo, invasoresPulpo[j].altoPulpo})) {
+                                    // Desactivar el disparo y el InvasorCangrejo impactado
+                                    bulletActive = false;
+                                    invasoresPulpo[j].activoPulpo = false;
+                                    }
+                                }
+                            }
+                        }
+        // Eliminar los invasoresCalamar impactados
+        for (int j = 0; j < MAX_PULPO; j++) {
+            if (!invasoresPulpo[j].activoPulpo) {
+                pulposEliminados++;
+            }
+        }
         // Draw the game objects
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -228,6 +299,11 @@ int main()
         for (int i = 0; i < MAX_CALAMAR; i++) {
             if (invasoresCalamar[i].activoCala) {
                 DrawTexture(invasoresCalamar[i].calamar, invasoresCalamar[i].positionCalamar.x, invasoresCalamar[i].positionCalamar.y, WHITE);
+                }
+            }
+        for (int i = 0; i < MAX_PULPO; i++) {
+            if (invasoresPulpo[i].activoPulpo) {
+                DrawTexture(invasoresPulpo[i].pulpo, invasoresPulpo[i].positionPulpo.x, invasoresPulpo[i].positionPulpo.y, WHITE);
                 }
             }
 
