@@ -65,11 +65,11 @@ int main()
     //Inicializar Invasores Calamar
     for (int i = 0; i < MAX_CALAMAR; i++) {
     invasoresCalamar[i].calamar = LoadTexture("./recursos/calamar.png");
-    invasoresCalamar[i].positionCalamar = (Vector2){ 50 + i * 110, 20 };
+    invasoresCalamar[i].positionCalamar = (Vector2){ 50 + i * 110, 20 + invasoresCalamar[i].calamar.height + 10};
     invasoresCalamar[i].activoCala = true;
     invasoresCalamar[i].anchoCalamar = invasoresCangrejos[i].cangrejo.width;
     invasoresCalamar[i].altoCalamar = invasoresCangrejos[i].cangrejo.height;
-    invasoresCalamar[i].speedCalamar = 150;
+    invasoresCalamar[i].speedCalamar = 100;
     }
 
 
