@@ -47,6 +47,24 @@ int ventanaJuego()
     const int screenHeight = 500;
     InitWindow(screenWidth, screenHeight, "Space Shooter");
 
+
+    //Mensaje Perdió
+    const int fontSize = 32;
+    int textox = 20; // posición horizontal del texto
+    int textoy = 20; // posición vertical del texto
+    const char* message = "Ha perdido";
+    Color color = RED;
+
+    // Obtener el ancho y la altura del texto
+    int textWidth = MeasureText(message, fontSize);
+    int textHeight = fontSize;
+
+    // Centrar horizontalmente
+    textox = screenWidth/2 - textWidth/2;
+
+    // Centrar verticalmente
+    textoy = screenHeight/2 - textHeight/2;
+
     // Carga las imagenes de la nave y bala
     Texture2D spaceship = LoadTexture("./recursos/nave.png");
     Texture2D bullet = LoadTexture("./recursos/proyectil.png");
@@ -148,6 +166,7 @@ int ventanaJuego()
     int puntosCalamar = 10;
     int puntosPulpo = 40;
     int puntosOvni = rand() % 10 + 1;
+    bool invasorAlcanzoLimitePantalla = false;
 
 
     // Main game loop
@@ -335,11 +354,32 @@ int ventanaJuego()
 
 
                             }
-
         
+        for (int i = 0; i < MAX_INVASORES; i++) {
+            if (invasoresCangrejos[i].activo && invasoresCangrejos[i].position.y + invasoresCangrejos[i].alto >= screenHeight) {
+                invasorAlcanzoLimitePantalla = true;
+                break;
+                }
+            }
 
+        for (int i = 0; i < MAX_CALAMAR; i++) {
+            if (invasoresCalamar[i].activoCala && invasoresCalamar[i].positionCalamar.y + invasoresCalamar[i].altoCalamar >= screenHeight) {
+                invasorAlcanzoLimitePantalla = true;
+                break;
+            }
+        }
 
-       
+        for (int i = 0; i < MAX_PULPO; i++) {
+            if (invasoresPulpo[i].activoPulpo && invasoresPulpo[i].positionPulpo.y + invasoresPulpo[i].altoPulpo >= screenHeight) {
+                invasorAlcanzoLimitePantalla = true;
+                break;
+            }
+        }
+
+        if (invasorAlcanzoLimitePantalla) {
+            DrawText(message, textox, textoy, fontSize, color);
+            bulletActive = false;
+        }
 
         // Draw the game objects
         BeginDrawing();
