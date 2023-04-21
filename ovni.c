@@ -39,8 +39,9 @@ void moverOvni(Ovni *ovni) {
         
         ovni->mostrar = true; // Mostrar el ovni en la pantalla
         
+    }
 
-    }if (ovni->mostrar==true){
+    if (ovni->mostrar==true){
 
         ovni->posX += ovni->speedX;
 
@@ -53,12 +54,13 @@ void moverOvni(Ovni *ovni) {
 // Actualizar la posicion del ovni
 void actualizarPosicionOvni(Ovni *ovni) {
 
-    //ovni empieza a moverse
-    //ovni->posX += ovni->speedX;
-
      // Verificar si el sprite ha alcanzado el borde derecho de la pantalla
     if (ovni->posX > ovni->screenWidth) {
-        UnloadTexture(ovni->ovniImage);}
+        
+        inicializarOvni(ovni, ovni->screenWidth, ovni->screenHeight);
+        //hacer que se repita la funcion moverOvni
+
+    }
 }
 
 

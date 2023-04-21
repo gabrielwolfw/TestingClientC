@@ -181,7 +181,10 @@ void ventanaJugador() {
             proyectilIndex = (proyectilIndex + 1) % MAX_PROYECTILES;
         }
 
-        // mostrar el ovni
+
+        
+
+         // mostrar el ovni
         moverOvni(&ovni);
 
 
