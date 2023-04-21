@@ -14,7 +14,17 @@ typedef struct{
     int ancho;
     float speedInvasor;
 
-}Invasor;
+}InvasorCangrejo;
+
+
+typedef struct{
+    Texture2D calamar;
+    Vector2 positionCalamar;
+    bool activoCala;
+    int altoCalamar;
+    int anchoCalamar;
+    float speedCalamar;
+}InvasorCalamar;
 
 
 
@@ -29,25 +39,38 @@ int main()
     // Load the spaceship and bullet images
     Texture2D spaceship = LoadTexture("./recursos/nave.png");
     Texture2D bullet = LoadTexture("./recursos/proyectil.png");
-    //Texture2D invasor = LoadTexture("./recursos/cangrejo.png");
+    //Texture2D InvasorCangrejo = LoadTexture("./recursos/cangrejo.png");
 
 
-    //Invasor: definitivo
+    //InvasorCangrejo: definitivo, cangrejo
     const int MAX_INVASORES = 5;
-    Invasor invasores[MAX_INVASORES];
+    InvasorCangrejo invasoresCangrejos[MAX_INVASORES];
     int invasoresEliminados = 0;
-
-    //Inicializa los invasores
+    //Inicializa los invasoresCangrejos
     for (int i = 0; i < MAX_INVASORES; i++) {
-    invasores[i].cangrejo = LoadTexture("./recursos/cangrejo.png");
-    invasores[i].position = (Vector2){ 50 + i * 100, 20 };
-    invasores[i].activo = true;
-    invasores[i].ancho = invasores[i].cangrejo.width;
-    invasores[i].alto = invasores[i].cangrejo.height;
-    invasores[i].speedInvasor = 100;
+    invasoresCangrejos[i].cangrejo = LoadTexture("./recursos/cangrejo.png");
+    invasoresCangrejos[i].position = (Vector2){ 50 + i * 100, 20 };
+    invasoresCangrejos[i].activo = true;
+    invasoresCangrejos[i].ancho = invasoresCangrejos[i].cangrejo.width;
+    invasoresCangrejos[i].alto = invasoresCangrejos[i].cangrejo.height;
+    invasoresCangrejos[i].speedInvasor = 100;
     }
-    
 
+
+    //Invasores Calamar
+    const int MAX_CALAMAR = 5;
+    InvasorCalamar invasoresCalamar[MAX_CALAMAR];
+    int calamaresEliminados = 0;
+
+    //Inicializar Invasores Calamar
+    for (int i = 0; i < MAX_CALAMAR; i++) {
+    invasoresCalamar[i].calamar = LoadTexture("./recursos/calamar.png");
+    invasoresCalamar[i].positionCalamar = (Vector2){ 50 + i * 110, 20 };
+    invasoresCalamar[i].activoCala = true;
+    invasoresCalamar[i].anchoCalamar = invasoresCangrejos[i].cangrejo.width;
+    invasoresCalamar[i].altoCalamar = invasoresCangrejos[i].cangrejo.height;
+    invasoresCalamar[i].speedCalamar = 150;
+    }
 
 
     // Set the starting position of the spaceship
@@ -94,23 +117,23 @@ int main()
             if (bulletPosition.y + bullet.height < 0) bulletActive = false;
         }
         
-        //Barreras y movimiento de los invasores
+        //Barreras y movimiento de los invasoresCangrejos
         for (int i = 0; i < MAX_INVASORES; i++) {
-            if (invasores[i].activo) {
+            if (invasoresCangrejos[i].activo) {
                 if (invaderDirectionRight) {
-                    invasores[i].position.x += invasores[i].speedInvasor * GetFrameTime();
-                    if (invasores[i].position.x + invasores[i].ancho >= screenWidth) {
+                    invasoresCangrejos[i].position.x += invasoresCangrejos[i].speedInvasor * GetFrameTime();
+                    if (invasoresCangrejos[i].position.x + invasoresCangrejos[i].ancho >= screenWidth) {
                         invaderDirectionRight = false;
                         for (int j = 0; j < MAX_INVASORES; j++) {
-                            invasores[j].position.y += invasores[j].alto;
+                            invasoresCangrejos[j].position.y += invasoresCangrejos[j].alto;
                             }
                         }
                 } else {
-                invasores[i].position.x -= invasores[i].speedInvasor * GetFrameTime();
-                if (invasores[i].position.x <= 0) {
+                invasoresCangrejos[i].position.x -= invasoresCangrejos[i].speedInvasor * GetFrameTime();
+                if (invasoresCangrejos[i].position.x <= 0) {
                     invaderDirectionRight = true;
                     for (int j = 0; j < MAX_INVASORES; j++) {
-                        invasores[j].position.y += invasores[j].alto;
+                        invasoresCangrejos[j].position.y += invasoresCangrejos[j].alto;
                     }
                 }
             }
@@ -119,41 +142,92 @@ int main()
 
         
 
-        //Colisiones de los invasores
-        // Chequear colisiones de disparos con invasores
+        //Colisiones de los invasoresCangrejos
+        // Chequear colisiones de disparos con invasoresCangrejos
         
         if (bulletActive) {
             for (int j = 0; j < MAX_INVASORES; j++) {
-                if (invasores[j].activo) {
-                    // Chequear si el disparo colisiona con el invasor
+                if (invasoresCangrejos[j].activo) {
+                    // Chequear si el disparo colisiona con el InvasorCangrejo
                     if (CheckCollisionRecs((Rectangle){bulletPosition.x, bulletPosition.y, bullet.width, bullet.height},
-                                    (Rectangle){invasores[j].position.x, invasores[j].position.y, invasores[j].ancho, invasores[j].alto})) {
-                                    // Desactivar el disparo y el invasor impactado
+                                    (Rectangle){invasoresCangrejos[j].position.x, invasoresCangrejos[j].position.y, invasoresCangrejos[j].ancho, invasoresCangrejos[j].alto})) {
+                                    // Desactivar el disparo y el InvasorCangrejo impactado
                                     bulletActive = false;
-                                    invasores[j].activo = false;
+                                    invasoresCangrejos[j].activo = false;
                                     }
                                 }
                             }
                         }
-        // Eliminar los invasores impactados
+        // Eliminar los invasoresCangrejos impactados
         for (int j = 0; j < MAX_INVASORES; j++) {
-            if (!invasores[j].activo) {
+            if (!invasoresCangrejos[j].activo) {
                 invasoresEliminados++;
             }
         }
 
+
+
+
+        //Barreras y movimiento de los invasoresCalamar
+        for (int i = 0; i < MAX_CALAMAR; i++) {
+            if (invasoresCalamar[i].activoCala) {
+                if (invaderDirectionRight) {
+                    invasoresCalamar[i].positionCalamar.x += invasoresCalamar[i].speedCalamar * GetFrameTime();
+                    if (invasoresCalamar[i].positionCalamar.x + invasoresCalamar[i].anchoCalamar >= screenWidth) {
+                        invaderDirectionRight = false;
+                        for (int j = 0; j < MAX_CALAMAR; j++) {
+                            invasoresCalamar[j].positionCalamar.y += invasoresCalamar[j].altoCalamar;
+                            }
+                        }
+                } else {
+                invasoresCalamar[i].positionCalamar.x -= invasoresCalamar[i].speedCalamar * GetFrameTime();
+                if (invasoresCalamar[i].positionCalamar.x <= 0) {
+                    invaderDirectionRight = true;
+                    for (int j = 0; j < MAX_CALAMAR; j++) {
+                        invasoresCalamar[j].positionCalamar.y += invasoresCalamar[j].altoCalamar;
+                    }
+                }
+            }
+        }
+    }
+        //Deteccion de colisiones con las balas de los calamares
+        if (bulletActive) {
+            for (int j = 0; j < MAX_CALAMAR; j++) {
+                if (invasoresCalamar[j].activoCala) {
+                    // Chequear si el disparo colisiona con el InvasorCangrejo
+                    if (CheckCollisionRecs((Rectangle){bulletPosition.x, bulletPosition.y, bullet.width, bullet.height},
+                                    (Rectangle){invasoresCalamar[j].positionCalamar.x, invasoresCalamar[j].positionCalamar.y, invasoresCalamar[j].anchoCalamar, invasoresCalamar[j].altoCalamar})) {
+                                    // Desactivar el disparo y el InvasorCangrejo impactado
+                                    bulletActive = false;
+                                    invasoresCalamar[j].activoCala = false;
+                                    }
+                                }
+                            }
+                        }
+        // Eliminar los invasoresCalamar impactados
+        for (int j = 0; j < MAX_CALAMAR; j++) {
+            if (!invasoresCalamar[j].activoCala) {
+                calamaresEliminados++;
+            }
+        }
 
         // Draw the game objects
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(spaceship, spaceshipPosition.x, spaceshipPosition.y, WHITE);
 
-        //dibujar al invasor solo si no ha sido eliminado
-        // Dibuja los invasores solo si no han sido eliminados
+        //dibujar al InvasorCangrejo solo si no ha sido eliminado
+        // Dibuja los invasoresCangrejos solo si no han sido eliminados
 
         for (int i = 0; i < MAX_INVASORES; i++) {
-            if (invasores[i].activo) {
-                DrawTexture(invasores[i].cangrejo, invasores[i].position.x, invasores[i].position.y, WHITE);
+            if (invasoresCangrejos[i].activo) {
+                DrawTexture(invasoresCangrejos[i].cangrejo, invasoresCangrejos[i].position.x, invasoresCangrejos[i].position.y, WHITE);
+                }
+            }
+
+        for (int i = 0; i < MAX_CALAMAR; i++) {
+            if (invasoresCalamar[i].activoCala) {
+                DrawTexture(invasoresCalamar[i].calamar, invasoresCalamar[i].positionCalamar.x, invasoresCalamar[i].positionCalamar.y, WHITE);
                 }
             }
 
