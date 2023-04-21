@@ -147,6 +147,7 @@ int ventanaJuego()
     int puntosCangrejo = 20;
     int puntosCalamar = 10;
     int puntosPulpo = 40;
+    int puntosOvni = rand() % 10 + 1;
 
 
     // Main game loop
@@ -205,10 +206,6 @@ int ventanaJuego()
         moverOvni(&ovni);
         //Colisiones de los invasoresCangrejos
         // Chequear colisiones de disparos con invasoresCangrejos
-
-        
-        
-        
         if (bulletActive) {
             for (int j = 0; j < MAX_INVASORES; j++) {
                 if (invasoresCangrejos[j].activo) {
@@ -327,6 +324,20 @@ int ventanaJuego()
                 
             }
         }
+
+
+        if (CheckCollisionRecs((Rectangle){bulletPosition.x, bulletPosition.y, bullet.width, bullet.height},
+                                (Rectangle){ovni.posX,ovni.posY,ovni.ovniImage.width,ovni.ovniImage.height})) {
+                                // Desactivar el disparo e inicializar el ovni
+                                inicializarOvni(&ovni, screenWidth, screenHeight);
+                                bulletActive = false;
+                                puntos += puntosOvni;
+
+
+                            }
+
+        
+
 
        
 
