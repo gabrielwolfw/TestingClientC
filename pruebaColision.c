@@ -12,6 +12,7 @@ typedef struct{
     bool activo;
     int alto;
     int ancho;
+    float speedInvasor;
 
 }Invasor;
 
@@ -31,17 +32,8 @@ int main()
     //Texture2D invasor = LoadTexture("./recursos/cangrejo.png");
 
 
-
     //Invasor: definitivo
-    //float posXInvasor = 50;
-    //float posYInvasor = 20;
-    //Vector2 invasorPosicion = {posYInvasor,posXInvasor};
-    //bool direccion = true;
-    //float speedInvasor = 0.5;
-    //int invasoresEliminados = 0;
-
-    //Invasor: prueba, añadir a lista
-    const int MAX_INVASORES = 10;
+    const int MAX_INVASORES = 5;
     Invasor invasores[MAX_INVASORES];
     int invasoresEliminados = 0;
 
@@ -52,6 +44,7 @@ int main()
     invasores[i].activo = true;
     invasores[i].ancho = invasores[i].cangrejo.width;
     invasores[i].alto = invasores[i].cangrejo.height;
+    invasores[i].speedInvasor = 100;
     }
     
 
@@ -70,7 +63,7 @@ int main()
 
     // Set the status of the bullet (active or inactive)
     bool bulletActive = false;
-    //bool invasorEliminado = false;
+    bool invaderDirectionRight = true;
 
     // Main game loop
     while (!WindowShouldClose())
@@ -100,14 +93,29 @@ int main()
             // Deactivate the bullet if it goes off the screen
             if (bulletPosition.y + bullet.height < 0) bulletActive = false;
         }
-        //Se agrega una lista
-
+        
+        //Barreras y movimiento de los invasores
         for (int i = 0; i < MAX_INVASORES; i++) {
             if (invasores[i].activo) {
-                DrawTexture(invasores[i].cangrejo, invasores[i].position.x, invasores[i].position.y, WHITE);
-                // realizar otras operaciones con el invasor activo
+                if (invaderDirectionRight) {
+                    invasores[i].position.x += invasores[i].speedInvasor * GetFrameTime();
+                    if (invasores[i].position.x + invasores[i].ancho >= screenWidth) {
+                        invaderDirectionRight = false;
+                        for (int j = 0; j < MAX_INVASORES; j++) {
+                            invasores[j].position.y += invasores[j].alto;
+                            }
+                        }
+                } else {
+                invasores[i].position.x -= invasores[i].speedInvasor * GetFrameTime();
+                if (invasores[i].position.x <= 0) {
+                    invaderDirectionRight = true;
+                    for (int j = 0; j < MAX_INVASORES; j++) {
+                        invasores[j].position.y += invasores[j].alto;
+                    }
                 }
             }
+        }
+    }
 
         
 
@@ -134,47 +142,6 @@ int main()
             }
         }
 
-
-        //Detección de colisiones de la bala (funciona)
-        //if (bulletActive) {
-        //    Rectangle bulletRect = { bulletPosition.x, bulletPosition.y, bullet.width, bullet.height };
-        //    Rectangle invasorRect = { invasorPosicion.x, invasorPosicion.y, invasor.width, invasor.height };
-        //    if (CheckCollisionRecs(bulletRect, invasorRect)) {
-        //        bulletActive = false;
-        //        invasorPosicion.x = rand() % (screenWidth - invasor.width);
-        //        invasorPosicion.y = -invasor.height;
-        //    }
-        //}
-
-        
-
-        // Detectar colisiones entre la bala y el invasor
-        //if (bulletActive) {
-        //    Rectangle bulletRect = { bulletPosition.x, bulletPosition.y, bullet.width, bullet.height };
-        //    Rectangle invasorRect = { invasorPosicion.x, invasorPosicion.y, invasor.width, invasor.height };
-        //    if (CheckCollisionRecs(bulletRect, invasorRect)) {
-        //        // Colisión detectada: desactivar la bala, eliminar al invasor y actualizar su posición
-        //        bulletActive = false;
-        //        invasorPosicion.x = -70;
-        //        invasorPosicion.y = -70;
-        //        invasorEliminado = false;
-
-        //    }else if (!CheckCollisionRecs(bulletRect, invasorRect))
-        //    {
-        //       if(direccion){
-        //            invasorPosicion.x += speedInvasor;
-        //            invasorPosicion.y += 0.1;
-        //        }else{
-        //            invasorPosicion.x -= speedInvasor;
-        //            invasorPosicion.y += 0.1;
-        //            }  
-        //    }      
-        //}
-        // Eliminar al invasor si ha sido impactado
-        //if (invasorEliminado) {
-        //     invasorPosicion.x = -invasor.width; // Mover al invasor fuera de la pantalla
-        //     invasorEliminado = true;
-        //    }
 
         // Draw the game objects
         BeginDrawing();
