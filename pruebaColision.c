@@ -37,10 +37,10 @@ typedef struct{
 }InvasorPulpo;
 
 
-
-
 int main()
 {
+  
+
     // Initialize the game window and other settings
     const int screenWidth = 900;
     const int screenHeight = 500;
@@ -117,6 +117,12 @@ int main()
     bool direccionCalmar = true;
     bool direccionPulpo = true;
 
+    int puntos = 0; // Inicializar contador de puntos
+    int puntosCangrejo = 10;
+    int puntosCalamar = 20;
+    int puntosPulpo = 30; 
+
+
     // Main game loop
     while (!WindowShouldClose())
     {
@@ -173,6 +179,9 @@ int main()
 
         //Colisiones de los invasoresCangrejos
         // Chequear colisiones de disparos con invasoresCangrejos
+
+        
+        
         
         if (bulletActive) {
             for (int j = 0; j < MAX_INVASORES; j++) {
@@ -183,14 +192,18 @@ int main()
                                     // Desactivar el disparo y el InvasorCangrejo impactado
                                     bulletActive = false;
                                     invasoresCangrejos[j].activo = false;
+                                    puntos += puntosCangrejo;
+
                                     }
                                 }
                             }
+                        
                         }
         // Eliminar los invasoresCangrejos impactados
         for (int j = 0; j < MAX_INVASORES; j++) {
             if (!invasoresCangrejos[j].activo) {
                 invasoresEliminados++;
+
             }
         }
 
@@ -229,6 +242,7 @@ int main()
                                     // Desactivar el disparo y el InvasorCangrejo impactado
                                     bulletActive = false;
                                     invasoresCalamar[j].activoCala = false;
+                                    puntos += puntosCalamar;
                                     }
                                 }
                             }
@@ -237,6 +251,7 @@ int main()
         for (int j = 0; j < MAX_CALAMAR; j++) {
             if (!invasoresCalamar[j].activoCala) {
                 calamaresEliminados++;
+               
             }
         }
 
@@ -272,16 +287,23 @@ int main()
                                     // Desactivar el disparo y el InvasorCangrejo impactado
                                     bulletActive = false;
                                     invasoresPulpo[j].activoPulpo = false;
+                                    puntos += puntosPulpo;
+
                                     }
                                 }
                             }
                         }
         // Eliminar los invasoresCalamar impactados
+    
         for (int j = 0; j < MAX_PULPO; j++) {
             if (!invasoresPulpo[j].activoPulpo) {
                 pulposEliminados++;
+                
             }
         }
+
+       
+
         // Draw the game objects
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -308,6 +330,7 @@ int main()
             }
 
         if (bulletActive) DrawTexture(bullet, bulletPosition.x, bulletPosition.y, WHITE);
+        DrawText(TextFormat("Puntos: %05i", puntos), 20, 20, 20, RED);
         EndDrawing();
     }
 
