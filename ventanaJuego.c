@@ -3,6 +3,7 @@
 #include "stdbool.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "ovni.c"
 
 
         
@@ -41,15 +42,40 @@ int ventanaJuego()
 {
   
 
-    // Initialize the game window and other settings
+    // Configuracion de pantalla
     const int screenWidth = 900;
     const int screenHeight = 500;
     InitWindow(screenWidth, screenHeight, "Space Shooter");
 
-    // Load the spaceship and bullet images
+    // Carga las imagenes de la nave y bala
     Texture2D spaceship = LoadTexture("./recursos/nave.png");
     Texture2D bullet = LoadTexture("./recursos/proyectil.png");
-    //Texture2D InvasorCangrejo = LoadTexture("./recursos/cangrejo.png");
+
+    //Se carga las imagenes del bunker
+    Texture2D bunker1 = LoadTexture("./recursos/bunker.png");
+    Texture2D bunker2 = LoadTexture("./recursos/bunker.png");
+    Texture2D bunker3 = LoadTexture("./recursos/bunker.png");
+    Texture2D bunker4 = LoadTexture("./recursos/bunker.png");
+
+    //Posición de la nave
+    float bunker1X = 100;
+    float bunker1Y = 350;
+
+    //Bunker 2
+    float bunker2X = 300;
+    float bunker2Y= 350;
+
+    //Bunker 3
+    float bunker3X= 500;
+    float bunker3Y= 350;
+
+    //Bunker 4
+    float bunker4X = 700;
+    float bunker4Y= 350;
+    
+    //Inicializar el ovni
+    Ovni ovni;
+    inicializarOvni(&ovni, screenWidth, screenHeight);
 
 
     //InvasorCangrejo: definitivo, cangrejo
@@ -175,8 +201,8 @@ int ventanaJuego()
         }
     }
 
-        
-
+        // mostrar el ovni
+        moverOvni(&ovni);
         //Colisiones de los invasoresCangrejos
         // Chequear colisiones de disparos con invasoresCangrejos
 
@@ -331,6 +357,11 @@ int ventanaJuego()
 
         if (bulletActive) DrawTexture(bullet, bulletPosition.x, bulletPosition.y, WHITE);
         DrawText(TextFormat("Puntos: %05i", puntos), 20, 20, 20, RED);
+        DrawTexture(bunker1, bunker1X, bunker1Y, WHITE);  
+        DrawTexture(bunker2, bunker2X, bunker2Y, WHITE);  
+        DrawTexture(bunker3, bunker3X, bunker3Y, WHITE);  
+        DrawTexture(bunker4, bunker4X, bunker4Y, WHITE);
+        DibujarOvni(&ovni);  
         EndDrawing();
     }
 
