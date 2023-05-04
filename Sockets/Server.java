@@ -155,13 +155,13 @@ public class Server {
             System.out.println("Conexión establecida con el cliente " + cliente.getInetAddress());
 
             BufferedReader entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-            System.out.println("Hasta aqui todo bien 1");
+            //System.out.println("Hasta aqui todo bien 1");
             PrintWriter salida = new PrintWriter(cliente.getOutputStream(), true);
-            System.out.println("Hasta aqui todo bien 2");
+            //System.out.println("Hasta aqui todo bien 2");
 
             // Recibir datos del cliente
             String mensaje = entrada.readLine();
-            System.out.println("Hasta aqui todo bien 3");
+            //System.out.println("Hasta aqui todo bien 3");
             System.out.println("Mensaje del cliente recibido: " + mensaje);
 
             // Procesar los datos

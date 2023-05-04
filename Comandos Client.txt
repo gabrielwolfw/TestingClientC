@@ -1,0 +1,6 @@
+Comandos Client
+cd C:\Users\cecil\Videos\SpaCEinvaders\Sockets
+
+ gcc -o client client.c -lws2_32 -lmswsock
+
+client.exe

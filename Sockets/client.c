@@ -35,7 +35,7 @@ int main() {
         return 1;
     }
     
-    printf("Conexión establecida\n");
+    printf("Conexion establecida\n");
 
     // Enviar datos al servidor
     printf("Ingrese el mensaje: ");
